@@ -522,9 +522,19 @@
     };
     Parser.prototype.parseText = function() {
         var body = this.token.text;
+        var end = ''
+        if (body.indexOf("[x]") != -1 or body.indexOf("[X]") != -1) {
+			body = body.replace(/[x]/g,"<input type="checkbox" disabled="disabled" checked> <s>")
+			body = body.replace(/[X]/g,"<input type="checkbox" disabled="disabled" checked> <s>")
+			end = '</s>'
+        }
+        if (body.indexOf("[ ]") != -1){
+			body = body.replace(/[ ]/g,"<input type="checkbox" disabled="disabled">")
+		}
         while (this.peek().type === 'text') {
             body += '\n' + this.next().text;
         }
+        body += end
         return this.inline.output(body);
     };
     Parser.prototype.tok = function() {

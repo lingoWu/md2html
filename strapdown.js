@@ -522,19 +522,24 @@
     };
     Parser.prototype.parseText = function() {
         var body = this.token.text;
-        var end = ''
-        if (body.indexOf("[x]") != -1 or body.indexOf("[X]") != -1) {
-			body = body.replace(/[x]/g,"<input type="checkbox" disabled="disabled" checked> <s>")
-			body = body.replace(/[X]/g,"<input type="checkbox" disabled="disabled" checked> <s>")
-			end = '</s>'
+        var end = '';
+        console.log(body);
+		var i1 = body.indexOf('[x]');
+		var i2 = body.indexOf('[X]');
+		var i = i1 > i2 ? i1 : i2;
+        if (i >= 0) {
+			body = body.substr(0,i) + '<input type="checkbox" disabled="disabled" checked> <s>' + body.substr(i+3)
+			end = '</s>';
         }
-        if (body.indexOf("[ ]") != -1){
-			body = body.replace(/[ ]/g,"<input type="checkbox" disabled="disabled">")
+        i = body.indexOf("[ ]");
+        if (i != -1){
+			body = body.substr(0,i) + '<input type="checkbox" disabled="disabled">' + body.substr(i+3)
 		}
         while (this.peek().type === 'text') {
             body += '\n' + this.next().text;
         }
-        body += end
+        body += end;
+        console.log(body);
         return this.inline.output(body);
     };
     Parser.prototype.tok = function() {

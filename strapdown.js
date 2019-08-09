@@ -555,7 +555,7 @@
 			var body_ = body.substr(i+len);
 			//style="background-color:yellow"
 			//body = body.substr(0,i) + '<span style="border-bottom:3px double gray"> [ <span >' + body.substr(i+1,len-2) + '</span>]</span>';
-			body = body.substr(0,i) + '<span style="background-color:gray"> ' + body.substr(i+1,len-2) + '</span>';
+			body = body.substr(0,i) + '<span style="background-color:#f0f0f6"> ' + body.substr(i+1,len-2) + '</span>'; //#d6ecf0
 			i = body.length+j;
 			body += body_;
 			if (j<0) break;

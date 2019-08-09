@@ -524,6 +524,7 @@
         var body = this.token.text;
         var end = '';
         console.log(body);
+        // check box
 		var i1 = body.indexOf('[x]');
 		var i2 = body.indexOf('[X]');
 		var i = i1 > i2 ? i1 : i2;
@@ -534,6 +535,30 @@
         i = body.indexOf("[ ]");
         if (i != -1){
 			body = body.substr(0,i) + '<input type="checkbox" disabled="disabled">' + body.substr(i+3)
+		}
+		// data and time
+		var i = body.search(/\[[\d-]+ [\d:]+\]/);
+		while (i >= 0){
+			var len = body.substr(i).search(']')+1;
+			var j = body.substr(i+len).search(/\[[\d-]+ [\d:]+\]/);
+			var body_ = body.substr(i+len);
+			body = body.substr(0,i) + '<sup><font size="1">' + body.substr(i,len) + '</font></sup>';
+			i = body.length+j;
+			body += body_;
+			if (j<0) break;
+		}
+		// fen shu score
+		var i = body.search(/\[[\d]+[\'分]\]/);
+		while (i >= 0){
+			var len = body.substr(i).search(']')+1;
+			var j = body.substr(i+len).search(/\[[\d]+[\'分]\]/);
+			var body_ = body.substr(i+len);
+			//style="background-color:yellow"
+			//body = body.substr(0,i) + '<span style="border-bottom:3px double gray"> [ <span >' + body.substr(i+1,len-2) + '</span>]</span>';
+			body = body.substr(0,i) + '<span style="background-color:gray"> ' + body.substr(i+1,len-2) + '</span>';
+			i = body.length+j;
+			body += body_;
+			if (j<0) break;
 		}
         while (this.peek().type === 'text') {
             body += '\n' + this.next().text;

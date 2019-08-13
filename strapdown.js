@@ -548,17 +548,26 @@
 			if (j<0) break;
 		}
 		// fen shu score
-		var i = body.search(/\[[\d]+[\'分]\]/);
-		while (i >= 0){
+		var i = body.search(/\[[\d]+[\'分]\]/);		
+		var j = -1;
+		if (i >= 0){
 			var len = body.substr(i).search(']')+1;
-			var j = body.substr(i+len).search(/\[[\d]+[\'分]\]/);
+			j = body.substr(i+len).search(/\[[\d]+[\'分]\]/);
 			var body_ = body.substr(i+len);
 			//style="background-color:yellow"
 			//body = body.substr(0,i) + '<span style="border-bottom:3px double gray"> [ <span >' + body.substr(i+1,len-2) + '</span>]</span>';
 			body = body.substr(0,i) + '<span style="background-color:#f0f0f6"> ' + body.substr(i+1,len-2) + '</span>'; //#d6ecf0
 			i = body.length+j;
 			body += body_;
-			if (j<0) break;
+		}
+		while (j >= 0){
+			var len = body.substr(i).search(']')+1;
+			j = body.substr(i+len).search(/\[[\d]+[\'分]\]/);
+			var body_ = body.substr(i+len);
+			//style="background-color:yellow"
+			body = body.substr(0,i) + '<span style="border-bottom:3px double gray"> ' + body.substr(i+1,len-2) + '</span>'; //#d6ecf0
+			i = body.length+j;
+			body += body_;
 		}
         while (this.peek().type === 'text') {
             body += '\n' + this.next().text;
